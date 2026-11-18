@@ -1,0 +1,7 @@
+﻿<Application
+    x:Class="MSN_Money_Survival_Simulator.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MSN_Money_Survival_Simulator">
+
+</Application>
