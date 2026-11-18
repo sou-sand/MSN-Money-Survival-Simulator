@@ -4,6 +4,12 @@ A clicker game built on top of the existing Windows 8.1 Store project. The origi
 mascot (`Assets/assets/adolficon.png`) and the "terminate MSN Money" premise are kept; everything
 else — pages, game engine, artwork, audio and persistence — is new.
 
+# Download and play
+
+Web: https://sou-sand.github.io/killmsnmoney
+
+Download (W8.1+ | x32, x64, x86 and ARM): https://github.com/sou-sand/MSN-Money-Survival-Simulator/releases
+
 ## Two editions
 
 ### 1. Windows 8.1 Store app (the original project)
@@ -32,7 +38,10 @@ Ready-made packages:
 
 - `MSN Money Survival Simulator\AppPackages\MSN Money Survival Simulator_1.0.0.0_x86_Test\...x86.appx`
 - `MSN Money Survival Simulator\AppPackages\MSN Money Survival Simulator_1.0.0.0_x64_Test\...x64.appx`
-- Debug package under `..._x86_Debug_Test\`
+- `MSN Money Survival Simulator\AppPackages\MSN Money Survival Simulator_1.0.0.0_ARM_Test\...ARM.appx`
+- Debug packages under the matching `..._Debug_Test\` folders
+
+A copy of every Release/Debug package and certificate, with simple names, is in `LatestBuild\`.
 
 On a Windows 8.1 device, enable sideloading (or Developer Mode / an enterprise licence), install the
 `temporary key` certificate from the `_Test` folder, then install the `.appx`.
@@ -70,3 +79,4 @@ powershell -ExecutionPolicy Bypass -File '.\Tools\generate-assets.ps1'
 
 Recreates the tile/splash PNGs and the five WAV effects (`click`, `combo`, `buy`, `kill`, `unlock`).
 The browser edition's copies live in `Web/assets/`.
+
