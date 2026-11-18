@@ -50,6 +50,7 @@
   var cardRefs = [];
   var trophyRefs = [];
   var audioCtx = null;
+  var audioUnlocked = false;
   var toastTimer = null;
   var lastUIUpdate = 0;
   var chartTimer = 0;
@@ -205,6 +206,20 @@
   }
 
   /* ---------------- Feedback / FX ---------------- */
+  // Mobile browsers only allow audio after a real user gesture. The first tap anywhere
+  // creates/resumes the AudioContext so later (passive) sounds also work.
+  function unlockAudio() {
+    if (audioUnlocked) return;
+    audioUnlocked = true;
+    try {
+      if (!audioCtx) {
+        var Ctx = window.AudioContext || window.webkitAudioContext;
+        if (!Ctx) return;
+        audioCtx = new Ctx();
+      }
+      if (audioCtx.state === 'suspended' || audioCtx.state === 'interrupted') audioCtx.resume();
+    } catch (e) { /* audio is optional */ }
+  }
   function playSound(name) {
     if (!state.sound) return;
     try {
@@ -213,7 +228,7 @@
         if (!Ctx) return;
         audioCtx = new Ctx();
       }
-      if (audioCtx.state === 'suspended') audioCtx.resume();
+      if (audioCtx.state === 'suspended' || audioCtx.state === 'interrupted') audioCtx.resume();
       var tones = {
         click: [[900, 0, 0.05, 0.16]], combo: [[1320, 0, 0.07, 0.14]],
         buy: [[520, 0, 0.06, 0.16], [980, 0.06, 0.07, 0.14]],
@@ -419,7 +434,7 @@
       'stat-clicks', 'stat-upgrades', 'stat-asc', 'chart', 'trophy-grid', 'trophy-count',
       'settings-mult', 'settings-kills', 'ascend-btn', 'reset-btn', 'sound-toggle',
       'motion-toggle', 'toast', 'confirm', 'confirm-title', 'confirm-text',
-      'confirm-ok', 'confirm-cancel'].forEach(function (id) {
+      'confirm-ok', 'confirm-cancel', 'confirm-close'].forEach(function (id) {
         el[id.replace(/-([a-z])/g, function (m, c) { return c.toUpperCase(); })] = $(id);
       });
 
@@ -428,6 +443,12 @@
     buildCards();
     buildTrophies();
     updateUI();
+
+    // One-time, passive gesture listeners unlock Web Audio on iOS/Android without
+    // interfering with the normal click handlers or the game's balance.
+    document.addEventListener('touchstart', unlockAudio, { once: true, passive: true });
+    document.addEventListener('mousedown', unlockAudio, { once: true });
+    document.addEventListener('pointerdown', unlockAudio, { once: true, passive: true });
 
     el.target.addEventListener('click', click);
     document.querySelectorAll('.appbar-btn').forEach(function (button) {
@@ -441,9 +462,11 @@
     el.resetBtn.addEventListener('click', function () {
       confirmDialog('Reset everything?', 'This deletes all cash, upgrades, targets, trophies and reboots. This cannot be undone.', reset);
     });
+    el.confirmClose.addEventListener('click', function () { el.confirm.classList.add('hidden'); });
     document.addEventListener('keydown', function (e) {
       var keys = ['arena', 'upgrades', 'stats', 'trophies', 'settings'];
       if (/^[1-5]$/.test(e.key)) switchView(keys[parseInt(e.key, 10) - 1]);
+      if (e.key === 'Escape') el.confirm.classList.add('hidden');
     });
     window.addEventListener('resize', drawChart);
     document.addEventListener('visibilitychange', function () { if (document.hidden) save(); });

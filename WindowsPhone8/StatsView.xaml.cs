@@ -1,0 +1,88 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Shapes;
+using System.Windows.Threading;
+
+namespace MSN_Money_Survival_Simulator
+{
+    public sealed partial class StatsView : UserControl
+    {
+        private readonly List<double> history = new List<double>();
+        private readonly DispatcherTimer sampleTimer;
+
+        public StatsView()
+        {
+            InitializeComponent();
+            history.Add(Game.Current.Cash);
+            sampleTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
+            sampleTimer.Tick += SampleTimer_Tick;
+            sampleTimer.Start();
+            Unloaded += (s, e) => sampleTimer.Stop();
+        }
+
+        private void SampleTimer_Tick(object sender, EventArgs e)
+        {
+            history.Add(Game.Current.Cash);
+            if (history.Count > 60) history.RemoveAt(0);
+            DrawChart();
+        }
+
+        private void ChartCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            DrawChart();
+        }
+
+        private void DrawChart()
+        {
+            ChartCanvas.Children.Clear();
+            double width = ChartCanvas.ActualWidth;
+            double height = ChartCanvas.ActualHeight;
+            if (width < 20 || height < 20 || history.Count < 2) return;
+
+            for (int i = 1; i <= 3; i++)
+            {
+                double y = height * i / 4.0;
+                Line guide = new Line
+                {
+                    X1 = 0, Y1 = y, X2 = width, Y2 = y,
+                    Stroke = new SolidColorBrush(Color.FromArgb(255, 38, 52, 62)),
+                    StrokeThickness = 1
+                };
+                ChartCanvas.Children.Add(guide);
+            }
+
+            double min = history.Min();
+            double max = history.Max();
+            double span = Math.Max(1, max - min);
+            PointCollection points = new PointCollection();
+            for (int i = 0; i < history.Count; i++)
+            {
+                double x = (double)i / (history.Count - 1) * (width - 16) + 8;
+                double y = height - 14 - ((history[i] - min) / span) * (height - 28);
+                points.Add(new Point(x, y));
+            }
+
+            Polyline curve = new Polyline
+            {
+                Points = points,
+                Stroke = new SolidColorBrush(Color.FromArgb(255, 0, 188, 212)),
+                StrokeThickness = 2.5
+            };
+            ChartCanvas.Children.Add(curve);
+
+            Point last = points[points.Count - 1];
+            Ellipse head = new Ellipse
+            {
+                Width = 8, Height = 8,
+                Fill = new SolidColorBrush(Color.FromArgb(255, 255, 179, 0))
+            };
+            Canvas.SetLeft(head, last.X - 4);
+            Canvas.SetTop(head, last.Y - 4);
+            ChartCanvas.Children.Add(head);
+        }
+    }
+}

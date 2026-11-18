@@ -4,6 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0b1015">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="MSN Money Sim">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="description" content="A darkly humorous clicker simulator: terminate MSN Money, buy upgrades, and rewrite the timeline.">
+  <link rel="icon" href="assets/mascot.png">
+  <link rel="apple-touch-icon" href="assets/mascot.png">
   <title>MSN Money Survival Simulator</title>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -161,6 +169,7 @@
     <div id="toast" class="toast" role="status"></div>
     <div id="confirm" class="modal hidden">
       <div class="modal-box">
+        <button id="confirm-close" class="modal-close" aria-label="Close dialog">&times;</button>
         <div class="eyebrow">CONFIRM ACTION</div>
         <h2 id="confirm-title">Are you sure?</h2>
         <p id="confirm-text"></p>

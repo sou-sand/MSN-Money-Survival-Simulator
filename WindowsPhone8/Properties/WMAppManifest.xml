@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
+  <DefaultLanguage xmlns="" code="en-US" />
+  <App xmlns="" ProductID="{1CFAB878-3244-4EC2-B574-7A9CC64B1F7F}"
+       Title="MSN Money Survival"
+       RuntimeType="Silverlight"
+       Version="1.0.0.0"
+       Genre="apps.normal"
+       Author="Survival Simulator"
+       Description="Terminate MSN Money. One click at a time."
+       Publisher="Survival Simulator"
+       PublisherID="{2D58112F-0CE7-4719-BE66-7649118C1907}">
+    <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
+    <Capabilities>
+      <Capability Name="ID_CAP_NETWORKING" />
+    </Capabilities>
+    <Tasks>
+      <DefaultTask Name="_default" NavigationPage="MainPage.xaml" />
+    </Tasks>
+    <Tokens>
+      <PrimaryToken TokenID="MSNMoneySurvivalToken" TaskName="_default">
+        <TemplateType5>
+          <BackgroundImageURI IsRelative="true" IsResource="false">Assets\Background.png</BackgroundImageURI>
+          <Count>0</Count>
+          <Title>MSN Money Survival</Title>
+        </TemplateType5>
+      </PrimaryToken>
+    </Tokens>
+    <ScreenResolutions>
+      <ScreenResolution Name="ID_RESOLUTION_WVGA" />
+      <ScreenResolution Name="ID_RESOLUTION_WXGA" />
+      <ScreenResolution Name="ID_RESOLUTION_HD720P" />
+    </ScreenResolutions>
+  </App>
+</Deployment>

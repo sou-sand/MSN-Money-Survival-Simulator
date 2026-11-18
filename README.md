@@ -10,7 +10,7 @@ Web: https://sou-sand.github.io/killmsnmoney
 
 Download (W8.1+ | x32, x64, x86 and ARM): https://github.com/sou-sand/MSN-Money-Survival-Simulator/releases
 
-## Two editions
+## Three editions
 
 ### 1. Windows 8.1 Store app (the original project)
 
@@ -59,6 +59,18 @@ node serve.js 8777
 It mirrors the 8.1 game exactly: same upgrades, balance, bosses, combos, achievements, prestige,
 offline income, app-bar navigation, page transitions and generated sound effects (Web Audio).
 Progress is saved in `localStorage`.
+
+The browser edition is **mobile friendly**: responsive layouts from 320 px phones through tablets
+and desktop, a touch-sized bottom tab bar on small screens, safe-area support, 44 px+ tap targets,
+no double-tap zoom on the mascot, and Web Audio unlocked on first touch.
+
+### 3. Windows Phone 8.0+ edition (native Silverlight)
+
+Folder: `WindowsPhone8/`. A real Windows Phone Silverlight 8.0 app, so the same XAP runs on
+WP8.0, WP8.1 and 10 Mobile. Built with the WP8.0 SDK and MSBuild 12.0. Includes a persistent
+HUD, phone ApplicationBar, five views, full game parity, isolated-storage saves, and signed or
+unsigned XAPs for emulator and device deployment. See `WindowsPhone8/README.md` for build and
+deployment steps. Ready-to-deploy packages are in `LatestBuild/` with `WP8-` prefixes.
 
 ## How to play
 
