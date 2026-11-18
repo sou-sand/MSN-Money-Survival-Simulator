@@ -11,8 +11,10 @@ else — pages, game engine, artwork, audio and persistence — is new.
 A real WinRT XAML app targeting `8.1` / OS `6.3`, using:
 
 - **Top and bottom app bars** (`CommandBar` + `AppBarButton`) for navigation, sound and back.
-- **Theme transitions**: `ContentThemeTransition` between dynamic pages, `EntranceThemeTransition`
-  on page/card entry, `RepositionThemeTransition` in the grids.
+- **Theme transitions**: `RepositionThemeTransition` in the grids. Page-level content transitions
+  were deliberately removed: on Windows 8.1 an early `ContentThemeTransition`/`EntranceThemeTransition`
+  can leave a page invisible (blank arena). Navigation waits for `Frame.Loaded` and falls back to a
+  visible error dialog if a page fails.
 - **Storyboard animations**: pulsing target ring, floating damage numbers, confetti on boss kills,
   fade-in/out kill banner.
 - **A `Frame`-based shell**: the HUD/app bars persist while Arena, Upgrades, Stats, Trophies and
