@@ -1,0 +1,72 @@
+<Page
+    x:Class="MSN_Money_Survival_Simulator.StatsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MSN_Money_Survival_Simulator"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{StaticResource InkBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Background="#111B23" BorderBrush="#22303B" BorderThickness="0,0,0,1" Padding="28,18,28,16">
+            <StackPanel>
+                <TextBlock Text="MARKET TELEMETRY" Style="{StaticResource SectionTitleStyle}"/>
+                <TextBlock Text="Live readout of your campaign against the money machine." Style="{StaticResource BodyStyle}" Margin="0,4,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Row="1" Margin="24,20,24,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Background="{StaticResource PanelBrush}" BorderBrush="#2B3A45" BorderThickness="1" Padding="18" Margin="0,0,10,0">
+                <StackPanel>
+                    <TextBlock Text="LIFETIME CASH" Style="{StaticResource LabelStyle}"/>
+                    <TextBlock Text="{Binding TotalEarnedText}" FontSize="30" Foreground="{StaticResource AccentBrush}"/>
+                </StackPanel>
+            </Border>
+            <Border Grid.Column="1" Background="{StaticResource PanelBrush}" BorderBrush="#2B3A45" BorderThickness="1" Padding="18" Margin="5,0">
+                <StackPanel>
+                    <TextBlock Text="TOTAL CLICKS" Style="{StaticResource LabelStyle}"/>
+                    <TextBlock Text="{Binding TotalClicksText}" FontSize="30" Foreground="{StaticResource BrightBrush}"/>
+                </StackPanel>
+            </Border>
+            <Border Grid.Column="2" Background="{StaticResource PanelBrush}" BorderBrush="#2B3A45" BorderThickness="1" Padding="18" Margin="5,0">
+                <StackPanel>
+                    <TextBlock Text="UPGRADES OWNED" Style="{StaticResource LabelStyle}"/>
+                    <TextBlock Text="{Binding UpgradeCountText}" FontSize="30" Foreground="{StaticResource WarmBrush}"/>
+                </StackPanel>
+            </Border>
+            <Border Grid.Column="3" Background="{StaticResource PanelBrush}" BorderBrush="#2B3A45" BorderThickness="1" Padding="18" Margin="10,0,0,0">
+                <StackPanel>
+                    <TextBlock Text="ERA REBOOTS" Style="{StaticResource LabelStyle}"/>
+                    <TextBlock Text="{Binding Ascensions}" FontSize="30" Foreground="{StaticResource DangerBrush}"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <Grid Grid.Row="2" Margin="24,8,24,24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <TextBlock Text="CASH FLOW" Style="{StaticResource LabelStyle}"/>
+                <TextBlock Text=" / last 60 samples" Style="{StaticResource LabelStyle}" Margin="6,0,0,0"/>
+            </StackPanel>
+            <Border Grid.Row="1" Background="{StaticResource PanelBrush}" BorderBrush="#2B3A45" BorderThickness="1">
+                <Canvas x:Name="ChartCanvas" SizeChanged="ChartCanvas_SizeChanged"/>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>

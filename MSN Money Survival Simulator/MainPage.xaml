@@ -7,7 +7,111 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.TopAppBar>
+        <CommandBar Background="#101820" Foreground="#F2F7FA" VerticalAlignment="Top">
+            <CommandBar.Content>
+                <StackPanel Orientation="Horizontal" Margin="24,10,0,0">
+                    <TextBlock Text="MSN MONEY" FontSize="17" FontWeight="SemiBold" Foreground="#F2F7FA" CharacterSpacing="120"/>
+                    <TextBlock Text="SURVIVAL SIMULATOR" FontSize="17" FontWeight="Light" Foreground="#00BCD4" CharacterSpacing="120" Margin="10,0,0,0"/>
+                </StackPanel>
+            </CommandBar.Content>
+            <AppBarButton x:Name="BackButton" Label="BACK" Click="Back_Click">
+                <AppBarButton.Icon>
+                    <SymbolIcon Symbol="Back"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton x:Name="SoundButton" Label="SOUND" Click="Sound_Click">
+                <AppBarButton.Icon>
+                    <SymbolIcon Symbol="Volume"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+        </CommandBar>
+    </Page.TopAppBar>
 
+    <Page.BottomAppBar>
+        <CommandBar x:Name="NavBar" Background="#101820" Foreground="#F2F7FA">
+            <AppBarButton x:Name="NavArena" Label="ARENA" Tag="arena" Click="Nav_Click">
+                <AppBarButton.Icon>
+                    <SymbolIcon Symbol="Home"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton x:Name="NavShop" Label="UPGRADES" Tag="shop" Click="Nav_Click">
+                <AppBarButton.Icon>
+                    <SymbolIcon Symbol="Shop"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton x:Name="NavStats" Label="STATS" Tag="stats" Click="Nav_Click">
+                <AppBarButton.Icon>
+                    <SymbolIcon Symbol="List"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton x:Name="NavAchievements" Label="TROPHIES" Tag="achievements" Click="Nav_Click">
+                <AppBarButton.Icon>
+                    <SymbolIcon Symbol="SolidStar"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton x:Name="NavSettings" Label="SETTINGS" Tag="settings" Click="Nav_Click">
+                <AppBarButton.Icon>
+                    <SymbolIcon Symbol="Setting"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+        </CommandBar>
+    </Page.BottomAppBar>
+
+    <Grid Background="{StaticResource InkBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="94"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Persistent HUD: always visible, regardless of the dynamic page below. -->
+        <Border Grid.Row="0" Background="#111B23" BorderBrush="#22303B" BorderThickness="0,0,0,1">
+            <Grid Margin="28,10,28,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="TOTAL CASH" Style="{StaticResource LabelStyle}"/>
+                    <TextBlock Text="{Binding CashText}" FontSize="34" FontWeight="SemiLight" Foreground="{StaticResource AccentBrush}"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Width="130" VerticalAlignment="Center">
+                    <TextBlock Text="PER CLICK" Style="{StaticResource LabelStyle}"/>
+                    <TextBlock Text="{Binding ClickText}" Style="{StaticResource ValueStyle}" FontSize="24"/>
+                </StackPanel>
+                <StackPanel Grid.Column="2" Width="130" VerticalAlignment="Center">
+                    <TextBlock Text="PER SECOND" Style="{StaticResource LabelStyle}"/>
+                    <TextBlock Text="{Binding DpsText}" Style="{StaticResource ValueStyle}" FontSize="24"/>
+                </StackPanel>
+                <StackPanel Grid.Column="3" Width="110" VerticalAlignment="Center">
+                    <TextBlock Text="TARGETS DOWN" Style="{StaticResource LabelStyle}"/>
+                    <TextBlock Text="{Binding KillsText}" Style="{StaticResource ValueStyle}" FontSize="24"/>
+                </StackPanel>
+                <StackPanel Grid.Column="4" Width="110" VerticalAlignment="Center">
+                    <TextBlock Text="ERA MULTIPLIER" Style="{StaticResource LabelStyle}"/>
+                    <TextBlock Text="{Binding MultiplierText}" Style="{StaticResource ValueStyle}" FontSize="24" Foreground="{StaticResource WarmBrush}"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Dynamic content region. Every page is injected here at runtime.
+             NOTE: no ContentThemeTransition here. On Windows 8.1 a nested Frame
+             with a ContentThemeTransition that is navigated before it is loaded
+             renders its content invisible (blank arena). Navigation now happens
+             in ContentFrame_Loaded instead. -->
+        <Frame x:Name="ContentFrame" Grid.Row="1" Background="{StaticResource InkBrush}"
+               Loaded="ContentFrame_Loaded" NavigationFailed="ContentFrame_NavigationFailed"/>
+
+        <!-- Transient notification strip. -->
+        <Border x:Name="Toast" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center"
+                Margin="0,18,0,0" Padding="18,10" Background="#E613232C" BorderBrush="{StaticResource AccentBrush}"
+                BorderThickness="0,0,0,2" Opacity="0" Visibility="Collapsed" IsHitTestVisible="False">
+            <TextBlock x:Name="ToastText" Text="" FontSize="15" Foreground="#F2F7FA" CharacterSpacing="40"/>
+        </Border>
     </Grid>
 </Page>

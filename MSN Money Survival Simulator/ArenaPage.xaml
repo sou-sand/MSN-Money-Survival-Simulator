@@ -1,0 +1,119 @@
+<Page
+    x:Class="MSN_Money_Survival_Simulator.ArenaPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MSN_Money_Survival_Simulator"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Loaded="ArenaPage_Loaded">
+
+    <Page.Resources>
+        <Storyboard x:Name="PulseStoryboard" RepeatBehavior="Forever" AutoReverse="True">
+            <DoubleAnimation Storyboard.TargetName="PulseEllipse" Storyboard.TargetProperty="Opacity"
+                             From="0.04" To="0.18" Duration="0:0:1.6">
+                <DoubleAnimation.EasingFunction>
+                    <CircleEase EasingMode="EaseInOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </Page.Resources>
+
+    <Grid Background="{StaticResource InkBrush}">
+        <!-- No ChildrenTransitions: on 8.1 an EntranceThemeTransition applied to
+             statically declared children can leave them at opacity 0 (blank page).
+             Motion is provided by the PulseStoryboard and runtime FX instead. -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Boss status -->
+        <Border Background="#111B23" BorderBrush="#22303B" BorderThickness="0,0,0,1" Padding="28,18,28,16">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="CURRENT TARGET" Style="{StaticResource LabelStyle}"/>
+                    <TextBlock Text="{Binding BossName}" FontSize="26" FontWeight="SemiLight" Foreground="{StaticResource BrightBrush}" Margin="0,2,0,0"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <TextBlock Text="{Binding BossHpText}" FontSize="16" Foreground="{StaticResource DangerBrush}" TextAlignment="Right"/>
+                    <TextBlock Text="{Binding WelcomeMessage}" FontSize="12" Foreground="{StaticResource MutedBrush}" TextAlignment="Right" MaxWidth="420" TextWrapping="Wrap"/>
+                </StackPanel>
+                <ProgressBar Grid.ColumnSpan="2" Margin="0,58,0,0" Height="10" Minimum="0" Maximum="100"
+                             Value="{Binding BossHpPercent}" Foreground="{StaticResource DangerBrush}" Background="#28343D"/>
+            </Grid>
+        </Border>
+
+        <!-- Arena -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="28,0,0,0" MaxWidth="240">
+                <TextBlock Text="YOUR ARSENAL" Style="{StaticResource LabelStyle}"/>
+                <TextBlock Text="{Binding ClickText}" FontSize="52" FontWeight="Light" Foreground="{StaticResource AccentBrush}"/>
+                <TextBlock Text="damage / click" Style="{StaticResource LabelStyle}"/>
+                <Rectangle Height="1" Fill="#27343E" Margin="0,18,0,18"/>
+                <TextBlock Text="PER SECOND" Style="{StaticResource LabelStyle}"/>
+                <TextBlock Text="{Binding DpsText}" FontSize="32" FontWeight="Light" Foreground="{StaticResource WarmBrush}"/>
+                <TextBlock Text="passive income" Style="{StaticResource LabelStyle}"/>
+                <StackPanel Margin="0,22,0,0">
+                    <TextBlock Text="COMBO METER" Style="{StaticResource LabelStyle}"/>
+                    <ProgressBar Height="6" Minimum="0" Maximum="100" Value="{Binding ComboPercent}"
+                                 Foreground="{StaticResource WarmBrush}" Background="#28343D" Margin="0,6,0,0"/>
+                    <TextBlock Text="{Binding ComboText}" FontSize="15" Foreground="{StaticResource WarmBrush}" Margin="0,6,0,0"/>
+                </StackPanel>
+            </StackPanel>
+
+            <Grid Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="360" Height="360">
+                <Ellipse x:Name="PulseEllipse" Width="340" Height="340" Fill="{StaticResource AccentBrush}" Opacity="0.06"/>
+                <Ellipse Width="300" Height="300" Stroke="#2B3A45" StrokeThickness="1"/>
+                <Button x:Name="TargetButton" Width="250" Height="250" Padding="0" HorizontalAlignment="Center"
+                        VerticalAlignment="Center" Click="Target_Click" Style="{StaticResource CleanButtonStyle}">
+                    <Image Source="ms-appx:///Assets/assets/adolficon.png" Stretch="Uniform" IsHitTestVisible="False"/>
+                </Button>
+            </Grid>
+
+            <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,28,0" MaxWidth="250">
+                <TextBlock Text="TARGET INTEL" Style="{StaticResource LabelStyle}"/>
+                <TextBlock Text="{Binding BossLevel}" FontSize="52" FontWeight="Light" Foreground="{StaticResource DangerBrush}"/>
+                <TextBlock Text="escalation tier" Style="{StaticResource LabelStyle}"/>
+                <Rectangle Height="1" Fill="#27343E" Margin="0,18,0,18"/>
+                <TextBlock Text="Click fast to build a combo. Each click within 1.25 seconds adds 4% damage, up to x3."
+                           Style="{StaticResource BodyStyle}"/>
+                <TextBlock Text="Passive income also damages the target — upgrades do the work while you are away."
+                           Style="{StaticResource BodyStyle}" Margin="0,10,0,0"/>
+                <TextBlock Text="{Binding OfflineText}" FontSize="13" Foreground="{StaticResource AccentBrush}"
+                           TextWrapping="Wrap" Margin="0,14,0,0"/>
+            </StackPanel>
+
+            <!-- Floating damage numbers and particles are injected here at runtime. -->
+            <Canvas x:Name="FxCanvas" Grid.ColumnSpan="3" IsHitTestVisible="False"/>
+        </Grid>
+
+        <!-- Boss defeated banner -->
+        <Border x:Name="KillBanner" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center"
+                Padding="34,22" Background="#EE12222B" BorderBrush="{StaticResource AccentBrush}" BorderThickness="0,0,0,3"
+                Visibility="Collapsed" Opacity="0" IsHitTestVisible="False">
+            <StackPanel HorizontalAlignment="Center">
+                <TextBlock Text="TARGET ELIMINATED" FontSize="28" FontWeight="SemiLight" Foreground="{StaticResource AccentBrush}" CharacterSpacing="120"/>
+                <TextBlock x:Name="KillRewardText" Text="" FontSize="20" Foreground="{StaticResource WarmBrush}" Margin="0,8,0,0" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="2" Background="#0D151C" Padding="28,10">
+            <TextBlock Text="TIP: Buy upgrades from the Upgrades app bar. Defeat five targets to unlock a timeline reboot."
+                       FontSize="12" Foreground="{StaticResource MutedBrush}" CharacterSpacing="40"/>
+        </Border>
+
+        <MediaElement x:Name="Sfx" Visibility="Collapsed"/>
+    </Grid>
+</Page>

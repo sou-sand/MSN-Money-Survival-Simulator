@@ -102,7 +102,7 @@ namespace MSN_Money_Survival_Simulator
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            //TODO: Save application state and stop any background activity
+            Game.Current.Save();
             deferral.Complete();
         }
     }

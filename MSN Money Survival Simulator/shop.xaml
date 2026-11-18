@@ -1,0 +1,90 @@
+﻿<Page
+    x:Name="pageRoot"
+    x:Class="MSN_Money_Survival_Simulator.shop"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MSN_Money_Survival_Simulator"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{StaticResource InkBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Background="#111B23" BorderBrush="#22303B" BorderThickness="0,0,0,1" Padding="28,18,28,16">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="UPGRADE SHOP" Style="{StaticResource SectionTitleStyle}"/>
+                    <TextBlock Text="Spend the cash you squeeze out of MSN Money. Prices rise with every purchase."
+                               Style="{StaticResource BodyStyle}" Margin="0,4,0,0"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <TextBlock Text="AVAILABLE CASH" Style="{StaticResource LabelStyle}" TextAlignment="Right"/>
+                    <TextBlock Text="{Binding CashText}" FontSize="34" Foreground="{StaticResource AccentBrush}" TextAlignment="Right"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <GridView x:Name="UpgradeGrid" Grid.Row="1" ItemsSource="{Binding Upgrades}" SelectionMode="None"
+                  IsItemClickEnabled="False" Padding="24,18,24,30">
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <Border Width="292" MinHeight="176" Background="{StaticResource PanelBrush}"
+                            BorderBrush="#2B3A45" BorderThickness="1" Padding="16">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="{Binding LevelText}" FontSize="11" Foreground="{StaticResource WarmBrush}"
+                                       CharacterSpacing="120" Grid.ColumnSpan="2"/>
+                            <TextBlock Grid.Row="1" Text="{Binding Name}" FontSize="20" FontWeight="SemiLight"
+                                       Foreground="{StaticResource BrightBrush}" TextWrapping="Wrap" Grid.ColumnSpan="2"
+                                       Margin="0,6,0,2"/>
+                            <TextBlock Grid.Row="2" Text="{Binding Description}" FontSize="13"
+                                       Foreground="{StaticResource MutedBrush}" Grid.ColumnSpan="2"/>
+                            <TextBlock Grid.Row="2" Text="{Binding EffectText}" FontSize="13"
+                                       Foreground="{StaticResource AccentBrush}" HorizontalAlignment="Right"
+                                       TextAlignment="Right" Grid.ColumnSpan="2" Margin="0,20,0,0"/>
+
+                            <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal"
+                                        VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,12,0,0">
+                                <TextBlock Text="{Binding CostText}" FontSize="18" Foreground="{StaticResource BrightBrush}"
+                                           VerticalAlignment="Center" Margin="0,0,12,0"/>
+                                <Button Content="BUY" Command="{Binding BuyCommand}" MinWidth="82" MinHeight="36"
+                                        Background="{StaticResource AccentBrush}" Foreground="White"
+                                        BorderThickness="0" FontSize="13" FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapGrid Orientation="Horizontal" ItemWidth="308" ItemHeight="192" MaximumRowsOrColumns="4"/>
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+            <GridView.ItemContainerTransitions>
+                <TransitionCollection>
+                    <RepositionThemeTransition/>
+                </TransitionCollection>
+            </GridView.ItemContainerTransitions>
+        </GridView>
+
+        <MediaElement x:Name="Sfx" Visibility="Collapsed"/>
+    </Grid>
+</Page>

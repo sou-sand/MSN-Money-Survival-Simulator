@@ -1,0 +1,85 @@
+<Page
+    x:Class="MSN_Money_Survival_Simulator.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MSN_Money_Survival_Simulator"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer Background="{StaticResource InkBrush}" VerticalScrollBarVisibility="Auto">
+        <Grid Margin="28,20,28,40">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Margin="0,0,0,18">
+                <TextBlock Text="SETTINGS" Style="{StaticResource SectionTitleStyle}"/>
+                <TextBlock Text="Tune the experience, reboot the timeline, or wipe the slate clean."
+                           Style="{StaticResource BodyStyle}" Margin="0,4,0,0"/>
+            </StackPanel>
+
+            <!-- Feedback -->
+            <Border Grid.Row="1" Background="{StaticResource PanelBrush}" BorderBrush="#2B3A45" BorderThickness="1" Padding="20" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="FEEDBACK" Style="{StaticResource LabelStyle}" Margin="0,0,0,10"/>
+                    <ToggleSwitch Header="Sound effects" OnContent="ON" OffContent="OFF"
+                                  IsOn="{Binding SoundEnabled, Mode=TwoWay}"/>
+                    <ToggleSwitch Header="Reduce motion" OnContent="ON" OffContent="OFF"
+                                  IsOn="{Binding ReducedMotion, Mode=TwoWay}"/>
+                    <TextBlock Text="Reduced motion disables floating numbers and confetti. The game is fully playable either way."
+                               Style="{StaticResource BodyStyle}" FontSize="13" Margin="0,6,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Prestige -->
+            <Border Grid.Row="2" Background="{StaticResource PanelBrush}" BorderBrush="#2B3A45" BorderThickness="1" Padding="20" Margin="0,0,0,16">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Margin="0,0,24,0">
+                        <TextBlock Text="TIMELINE REBOOT" Style="{StaticResource LabelStyle}"/>
+                        <TextBlock Text="Rewrite the timeline after 5 targets" FontSize="20" FontWeight="SemiLight"
+                                   Foreground="{StaticResource BrightBrush}" Margin="0,6,0,6"/>
+                        <TextBlock Text="Start over with a permanent x1.3 damage multiplier for every reboot. Upgrades and cash reset; trophies and lifetime stats stay."
+                                   Style="{StaticResource BodyStyle}"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                            <TextBlock Text="CURRENT MULTIPLIER  " Style="{StaticResource LabelStyle}"/>
+                            <TextBlock Text="{Binding MultiplierText}" FontSize="18" Foreground="{StaticResource WarmBrush}"/>
+                            <TextBlock Text="     TARGETS DOWN  " Style="{StaticResource LabelStyle}"/>
+                            <TextBlock Text="{Binding KillsText}" FontSize="18" Foreground="{StaticResource BrightBrush}"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <Button x:Name="AscendButton" Grid.Column="1" Content="REBOOT TIMELINE" VerticalAlignment="Center"
+                            MinWidth="170" MinHeight="44" Click="Ascend_Click"
+                            IsEnabled="{Binding CanAscend}" Background="{StaticResource WarmBrush}"
+                            Foreground="#101820" BorderThickness="0" FontWeight="SemiBold"/>
+                </Grid>
+            </Border>
+
+            <!-- Danger zone / about -->
+            <Border Grid.Row="3" Background="{StaticResource PanelBrush}" BorderBrush="#2B3A45" BorderThickness="1" Padding="20">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Margin="0,0,24,0">
+                        <TextBlock Text="DANGER ZONE" Style="{StaticResource LabelStyle}"/>
+                        <TextBlock Text="Erase every trace of the campaign" FontSize="20" FontWeight="SemiLight"
+                                   Foreground="{StaticResource BrightBrush}" Margin="0,6,0,6"/>
+                        <TextBlock Text="Resets cash, upgrades, targets, trophies and reboots. This cannot be undone."
+                                   Style="{StaticResource BodyStyle}"/>
+                    </StackPanel>
+                    <Button Grid.Column="1" Content="RESET EVERYTHING" VerticalAlignment="Center" MinWidth="170" MinHeight="44"
+                            Click="Reset_Click" Background="#4A2328" Foreground="#FFD9D9" BorderThickness="0"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </ScrollViewer>
+</Page>
